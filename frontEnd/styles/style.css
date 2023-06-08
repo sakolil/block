@@ -1,5 +1,5 @@
 body {
-    background-color: #3157d1;
+    background: linear-gradient(to right, #3157d1, #8BC34A);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -27,7 +27,7 @@ h1 {
 }
 
 .form-group input {
-    width: 100%;
+    width: 94.8%;
     padding: 10px;
     margin: auto;
     border-radius: 3px;
@@ -42,4 +42,27 @@ h1 {
 
 .form-group input[type="submit"]:hover {
     background-color: #1624a3;
+}
+
+.typing-input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.typing-animation {
+    overflow: hidden;
+    animation: typing 2s steps(40) infinite;
+    white-space: nowrap;
+    width: 0;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
 }
