@@ -1,4 +1,6 @@
 const Web3 = require('web3');
+var AES = require("crypto-js/aes");
+var pubKey = "VeryGoodKey"
 
 // Update with the contract ABI and address
 const contractABI = ["..."]; // Replace with the ABI of the PatientRegistry contract

@@ -2,6 +2,8 @@
 pragma solidity ^0.8.17;
 
 contract PatientRegistry {
+
+    
     struct Patient {
         string name;
         string lastName;
@@ -14,6 +16,7 @@ contract PatientRegistry {
     mapping(address => bool) private isAdmin;
     mapping(uint256 => address) private patientAddresses;
     mapping(address => Patient) private patients;
+    uint256[] private patientIds;
     
     event PatientRegistered(address patientAddress, uint256 id);
     event PatientInfoUpdated(address patientAddress, uint256 id);
@@ -43,6 +46,8 @@ contract PatientRegistry {
         
         patients[msg.sender] = Patient(name, lastName, dob, gender, id);
         patientAddresses[id] = msg.sender;
+        patientIds.push(id);
+        
         
         emit PatientRegistered(msg.sender, id);
     }
@@ -64,6 +69,14 @@ contract PatientRegistry {
         
         Patient memory patient = patients[patientAddress];
         return (patient.name, patient.lastName, patient.dob, patient.gender, patient.id);
+    }
+    
+    function getAllPatients() public view returns (Patient[] memory) {
+        Patient[] memory allPatients = new Patient[](patientIds.length);
+        for (uint256 i = 0; i < patientIds.length; i++) {
+            allPatients[i] = patients[patientAddresses[patientIds[i]]];
+        }
+        return allPatients;
     }
     
     function isAdminUser(address userAddress) public view returns (bool) {
