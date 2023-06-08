@@ -1,54 +1,69 @@
-window.addEventListener('DOMContentLoaded', async() => {
-    // Check if web3 is available
-    if (typeof web3 !== 'undefined') {
-        // Use the existing web3 provider (e.g., MetaMask)
-        web3 = new Web3(web3.currentProvider);
-    } else {
-        // Handle the case where web3 is not available
-        // You can display an error message or prompt the user to install MetaMask
-        console.log('Please install MetaMask or use a web3-enabled browser.');
-        return;
-    }
+const Web3 = require('web3');
 
-    // Contract ABI (Application Binary Interface)
-    const contractABI = [
-        // Contract's ABI here
-    ];
+// Update with the contract ABI and address
+const contractABI = ["..."]; // Replace with the ABI of the PatientRegistry contract
+const contractAddress = 'CONTRACT_ADDRESS'; // Replace with the address of the deployed PatientRegistry contract
 
-    // Contract address
-    const contractAddress = 'CONTRACT_ADDRESS';
+// Connect to the Ethereum network
+const web3 = new Web3('WEB3_PROVIDER_URL'); // Replace with your Ethereum provider URL
 
-    // Create an instance of the contract
-    const contract = new web3.eth.Contract(contractABI, contractAddress);
+// Create a contract instance
+const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-    // Example function to call the contract's registerPatient
-    async function registerPatient(name, lastName, dob, gender, id) {
-        // Convert string to bytes32 for Solidity compatibility
-        const nameBytes32 = web3.utils.utf8ToHex(name);
-        const lastNameBytes32 = web3.utils.utf8ToHex(lastName);
-
-        // Call the contract's registerPatient function
+// Grant admin privileges
+async function grantAdminPrivileges(adminAddress) {
+    try {
         const accounts = await web3.eth.getAccounts();
-        await contract.methods.registerPatient(nameBytes32, lastNameBytes32, dob, gender, id).send({ from: accounts[0] });
-
-        console.log('Patient registered successfully!');
+        const result = await contract.methods.addAdmin(adminAddress).send({ from: accounts[0] });
+        console.log('Admin privileges granted:', result);
+    } catch (error) {
+        console.error('Error granting admin privileges:', error);
     }
+}
 
-    // Example usage of the registerPatient function
-    document.getElementById('registration-form').addEventListener('submit', async(event) => {
-        event.preventDefault();
+// Revoke admin privileges
+async function revokeAdminPrivileges(adminAddress) {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const result = await contract.methods.removeAdmin(adminAddress).send({ from: accounts[0] });
+        console.log('Admin privileges revoked:', result);
+    } catch (error) {
+        console.error('Error revoking admin privileges:', error);
+    }
+}
 
-        const name = document.getElementById('name').value;
-        const lastName = document.getElementById('last-name').value;
-        const dob = document.getElementById('dob').value;
-        const gender = document.getElementById('gender').value;
-        const id = document.getElementById('id').value;
+// Update patient information
+async function updatePatientInfo(patientAddress, name, lastName, dob, gender, id) {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const result = await contract.methods.updatePatientInfo(patientAddress, name, lastName, dob, gender, id).send({ from: accounts[0] });
+        console.log('Patient information updated:', result);
+    } catch (error) {
+        console.error('Error updating patient information:', error);
+    }
+}
 
-        await registerPatient(name, lastName, dob, gender, id);
-    });
+// Get patient information
+async function getPatientInfo(patientAddress) {
+    try {
+        const result = await contract.methods.getPatient(patientAddress).call();
+        console.log('Patient information:', result);
+    } catch (error) {
+        console.error('Error getting patient information:', error);
+    }
+}
 
+// Check if an address has admin privileges
+async function isAdminUser(userAddress) {
+    try {
+        const result = await contract.methods.isAdminUser(userAddress).call();
+        console.log('Is admin:', result);
+    } catch (error) {
+        console.error('Error checking admin privileges:', error);
+    }
+}
 
-    const input = document.querySelector('.typing-input');
+const input = document.querySelector('.typing-input');
     input.addEventListener('focus', startTypingAnimation);
     input.addEventListener('blur', stopTypingAnimation);
 
@@ -59,4 +74,10 @@ window.addEventListener('DOMContentLoaded', async() => {
     function stopTypingAnimation() {
         input.classList.remove('typing-animation');
     }
-});
+// // Usage examples
+// grantAdminPrivileges('ADMIN_ADDRESS');
+// revokeAdminPrivileges('ADMIN_ADDRESS');
+// updatePatientInfo('PATIENT_ADDRESS', 'John', 'Doe', 1234567890, 1, 123);
+// getPatientInfo('PATIENT_ADDRESS');
+// isAdminUser('USER_ADDRESS');
+
