@@ -19,6 +19,7 @@ h1 {
 
 .form-group {
     margin-bottom: 20px;
+    margin: 0 auto 20px auto;
 }
 
 .form-group label {
@@ -29,7 +30,6 @@ h1 {
 .form-group input {
     width: 94.8%;
     padding: 10px;
-    margin: auto;
     border-radius: 3px;
     border: 1px solid #CCC;
 }
@@ -65,4 +65,23 @@ h1 {
     to {
         width: 100%;
     }
+}
+
+#gender {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    background-color: #fff;
+    background-image: linear-gradient(to bottom, #f9f9f9, #e8e8e8);
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+#gender option {
+    padding: 10px;
 }
