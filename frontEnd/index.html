@@ -4,12 +4,14 @@
 <head>
     <title>Registration Form</title>
     <link rel="stylesheet" href="styles/style.css">
+    <script src="web3.min.js"></script>
+    <script src="js.js"></script>
 </head>
 
 <body>
     <div class="container">
         <h1>Registration Form</h1>
-        <form onsubmit="handleSubmit(event)">
+        <form onsubmit="RegisterPatient()">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" class="typing-input" placeholder="Type Name" required>

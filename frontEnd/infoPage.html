@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
+    <script src="web3.min.js"></script>
+    <script src="retrieveData.js"></script>
+    
+</head>
+<body>
+    <h1>Patient Information</h1>
+
+    <div class="info-item">
+        <label for="firstName">First Name:</label>
+        <span id="firstName"></span>
+    </div>
+
+    <div class="info-item">
+        <label for="lastName">Last Name:</label>
+        <span id="lastName"></span>
+    </div>
+
+    <div class="info-item">
+        <label for="gender">Gender:</label>
+        <span id="gender"></span>
+    </div>
+
+    <div class="info-item">
+        <label for="dob">Date of Birth:</label>
+        <span id="dob"></span>
+    </div>
+
+    <div class="info-item">
+        <label for="id">ID:</label>
+        <span id="id"></span>
+    </div>
+
+    <script>
+        var data = JSON.parse(localStorage.getItem("myData"));
+        document.getElementById("firstName").textContent = data.name;
+        document.getElementById("lastName").textContent = data.lName;
+        document.getElementById("gender").textContent = data.gender;
+        document.getElementById("dob").textContent = data.dob;
+        document.getElementById("id").textContent = data.id;
+    </script>
+</body>
+</html>

@@ -14,7 +14,8 @@
     <h1>Retrieve Patient Data</h1>
     <input type="text" id="patientAddressInput" placeholder="Enter Patient Address">
     <input type="text" id="patientPrivateKey" placeholder="Enter Private Key">
-    <button onclick="getPatientInfo()">Get Patient Info</button>    
+    <button onclick="getPatientInfo(document.getElementById(patientAddressInput))">Get Patient Info</button>    
+
 </body>
 
 </html>

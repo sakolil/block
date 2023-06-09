@@ -7,9 +7,10 @@ contract PatientRegistry {
     struct Patient {
         string name;
         string lastName;
-        uint256 dob;
-        uint8 gender;  // 0 - Unknown, 1 - Male, 2 - Female, 3 - Other
+        string dob;
+        string gender;  
         uint256 id;
+        bytes32 privateKey;
     }
     
     address private admin;
@@ -40,11 +41,13 @@ contract PatientRegistry {
         isAdmin[_admin] = false;
     }
     
-    function registerPatient(string memory name, string memory lastName, uint256 dob, uint8 gender, uint256 id) public onlyAdmin {
+    function registerPatient(string memory name, string memory lastName, string memory dob, string memory gender, uint256 id) public onlyAdmin {
         require(patients[patientAddresses[id]].id == 0, "Patient already registered");
         require(patientAddresses[id] == address(0), "Patient ID already taken");
+
+        bytes32 privateKey = keccak256(abi.encodePacked(id));
         
-        patients[msg.sender] = Patient(name, lastName, dob, gender, id);
+        patients[msg.sender] = Patient(name, lastName, dob, gender, id,privateKey);
         patientAddresses[id] = msg.sender;
         patientIds.push(id);
         
@@ -52,7 +55,7 @@ contract PatientRegistry {
         emit PatientRegistered(msg.sender, id);
     }
     
-    function updatePatientInfo(address patientAddress, string memory name, string memory lastName, uint256 dob, uint8 gender, uint256 id) public onlyAdmin {
+    function updatePatientInfo(address patientAddress, string memory name, string memory lastName, string memory dob, string memory gender, uint256 id) public onlyAdmin {
         require(patientAddresses[id] == patientAddress, "Invalid patient ID");
         require(patients[patientAddress].id != 0, "Patient not found");
         
@@ -64,7 +67,7 @@ contract PatientRegistry {
         emit PatientInfoUpdated(patientAddress, id);
     }
     
-    function getPatient(address patientAddress) public view returns (string memory name, string memory lastName, uint256 dob, uint8 gender, uint256 id) {
+    function getPatient(address patientAddress) public view returns (string memory name, string memory lastName, string memory dob, string memory gender, uint256 id) {
         require(patients[patientAddress].id != 0, "Patient not found");
         
         Patient memory patient = patients[patientAddress];
