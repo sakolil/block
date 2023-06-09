@@ -1,3 +1,4 @@
+const Web3 = require('web3');
 // Update with the contract ABI and address
 const contractABI = [
 	{

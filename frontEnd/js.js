@@ -1,3 +1,4 @@
+const Web3 = require('web3');
 // Update with the contract ABI and address
 const contractABI = [
 	{
@@ -287,12 +288,10 @@ async function updatePatientInfo(patientAddress, name, lastName, dob, gender, id
 
 async function RegisterPatient(){
     var name = document.getElementById("name");
-    var lastName = document.getElementById("last-name")
-    var dob = document.getElementById("dob")
-    var gender = document.getElementById("gender")
-    var id = document.getElementById("id")
-
-
+    var lastName = document.getElementById("last-name");
+    var dob = document.getElementById("dob");
+    var gender = document.getElementById("gender");
+    var id = document.getElementById("id");
 
     try{
         contract.methods.RegisterPatient(name,lastName,dob,gender,id);
